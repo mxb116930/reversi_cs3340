@@ -1,0 +1,63 @@
+main
+Handles all user input. Keeps track of user input and declares winner.
+
+newBoard(address of board)
+Resets array to start of a new game.
+
+printBoard(address of board)
+Prints current board to output. Calls countPieces to display current totals.
+
+movesAvailable(address of board, color)
+Returns number of moves available and array of valid moves
+
+makeMove(address of board, color, move position)
+Makes specified move.
+
+countPieces(address of board)
+Counts number of pieces of both colors, returns both values.
+
+pickMove(address of board, color, address of array of available moves, possibly number of moves to look ahead)
+Returns computer move.
+
+rateMove(address of board before move, address of board after move)
+Returns integer value. Used by pickMove to decide on which move to take.
+
+copyBoard(address of board)
+Returns the address of a copy of the given board.
+
+Here's how I see the program working:
+
+Main loop starts by asking the user whether he wants to play black or white. Either verify input or just
+default to one if user doesn't pick something valid. newBoard is called to set the board.
+
+Inner loop starts by printing board. It checks that the current player has moves available by calling 
+movesAvailable. If not, current player's turn ends. Keeping track of the fact that one player had no moves 
+avaiable, the loop starts over on the other player's turn. If they have no moves, the game ends.
+Otherwise, either we take user input for a move or call pickMove. For user input, we make sure
+that user's move is valid by checking for it in the array returned by movesAvailable. Move is then made by
+calling makeMove and the inner loop ends.
+
+Main loop ends by asking if the user would like to play again.
+
+Optionally, we can adjust the difficulty of the computer opponent by letting it look ahead additional moves.
+
+Variables:
+1.One array to store board. A Reversi board is 8x8, but I think it'll be easier to make the array (which is 
+one-dimensional) simulate a 10x10 board with null blocks around the outside. This will simplify checking 
+diagonals. Otherwise you'd have to constantly be checking if you'd looped around the edge of the board,
+instead of just checking if you'd reached a null space. This will also simplify user input somewhat.
+Here's how I envision it:
+
+x  x  x  x  x  x  x  x  x x
+x 11 12 13 14 15 16 17 18 x
+x 21 22 23 24 25 26 27 28 x
+x 31 32 33 34 35 36 37 38 x
+x 41 42 43 44 45 46 47 48 x
+x 51 52 53 54 55 56 57 58 x
+x 61 62 63 64 65 66 67 68 x
+x 71 72 73 74 75 76 77 78 x
+x 81 82 83 84 85 86 87 88 x
+x  x  x  x  x  x  x  x  x x
+
+2.At least one array for a copy of the board. I'm not sure if there's an easy/possible way to make these as needed.
+3.One array to store possible moves. 
